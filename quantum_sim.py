@@ -17,6 +17,10 @@ H = (1 / np.sqrt(2)) * np.array([
     [1, -1]
 ], dtype=complex)
 
+Z = np.array([
+    [1, 0],
+    [0, -1]
+], dtype=complex)
 
 # Core simulator functions
 

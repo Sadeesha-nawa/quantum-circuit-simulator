@@ -1,5 +1,4 @@
-from quantum_sim import ZERO, ONE, X, H, apply_gate, probabilities, pretty_state, measure
-
+from quantum_sim import ZERO, ONE, X, Z, H, apply_gate, probabilities, pretty_state, measure
 
 print("Testing the one-qubit simulator")
 print()
@@ -58,3 +57,17 @@ print("Raw vector:", state)
 print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
 print("Measurement:", measure(state, shots=1000))
+print()
+
+# Test 6: Demonstrate phase/interference with H, Z, H
+state = ZERO
+state = apply_gate(H, state)
+state = apply_gate(Z, state)
+state = apply_gate(H, state)
+
+print("After applying H, then Z, then H to |0>:")
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
+print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
+print()

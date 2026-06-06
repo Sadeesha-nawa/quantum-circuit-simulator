@@ -1,4 +1,4 @@
-from quantum_sim import ZERO, ONE, X, H, apply_gate, probabilities
+from quantum_sim import ZERO, ONE, X, H, apply_gate, probabilities, pretty_state, measure
 
 
 print("Testing the one-qubit simulator")
@@ -9,8 +9,10 @@ print()
 state = ZERO
 
 print("Initial state |0>:")
-print(state)
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
 print()
 
 
@@ -18,8 +20,10 @@ print()
 state = apply_gate(X, ZERO)
 
 print("After applying X to |0>:")
-print(state)
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
 print()
 
 
@@ -27,8 +31,10 @@ print()
 state = apply_gate(X, ONE)
 
 print("After applying X to |1>:")
-print(state)
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
 print()
 
 
@@ -36,8 +42,10 @@ print()
 state = apply_gate(H, ZERO)
 
 print("After applying H to |0>:")
-print(state)
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
 print()
 
 
@@ -46,5 +54,7 @@ state = apply_gate(H, ZERO)
 state = apply_gate(H, state)
 
 print("After applying H twice to |0>:")
-print(state)
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))

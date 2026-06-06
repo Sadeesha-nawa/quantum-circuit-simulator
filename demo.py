@@ -1,4 +1,4 @@
-from quantum_sim import ZERO, ONE, X, Z, H, apply_gate, probabilities, pretty_state, measure
+from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, apply_gate, probabilities, pretty_state, measure, is_unitary
 
 print("Testing the one-qubit simulator")
 print()
@@ -70,4 +70,22 @@ print("Raw vector:", state)
 print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
 print("Measurement:", measure(state, shots=1000))
+print()
+
+# Test 7: Check which gates are unitary
+print("Checking if basic gates are unitary:")
+
+gates = {
+    "I": I,
+    "X": X,
+    "Y": Y,
+    "Z": Z,
+    "H": H,
+    "S": S,
+    "T": T
+}
+
+for name, gate in gates.items():
+    print(f"{name} is unitary:", is_unitary(gate))
+
 print()

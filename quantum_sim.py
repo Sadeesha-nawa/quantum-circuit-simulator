@@ -7,9 +7,28 @@ ONE = np.array([0, 1], dtype=complex)   # |1>
 
 # Basic one-qubit gates
 
+# -----------------------------
+# Basic one-qubit gates
+# -----------------------------
+
+I = np.array([
+    [1, 0],
+    [0, 1]
+], dtype=complex)
+
 X = np.array([
     [0, 1],
     [1, 0]
+], dtype=complex)
+
+Y = np.array([
+    [0, -1j],
+    [1j, 0]
+], dtype=complex)
+
+Z = np.array([
+    [1, 0],
+    [0, -1]
 ], dtype=complex)
 
 H = (1 / np.sqrt(2)) * np.array([
@@ -17,9 +36,14 @@ H = (1 / np.sqrt(2)) * np.array([
     [1, -1]
 ], dtype=complex)
 
-Z = np.array([
+S = np.array([
     [1, 0],
-    [0, -1]
+    [0, 1j]
+], dtype=complex)
+
+T = np.array([
+    [1, 0],
+    [0, np.exp(1j * np.pi / 4)]
 ], dtype=complex)
 
 # Core simulator functions
@@ -36,6 +60,15 @@ def probabilities(state):
     Convert quantum amplitudes into measurement probabilities.
     """
     return np.abs(state) ** 2
+
+def is_unitary(gate):
+    """
+    Check whether a gate is unitary.
+
+    A gate U is unitary if U†U = I.
+    """
+    identity = np.eye(gate.shape[0], dtype=complex)
+    return np.allclose(gate.conj().T @ gate, identity)
 
 def pretty_state(state):
     """
@@ -65,3 +98,4 @@ def measure(state, shots=1000):
         "0": int(np.sum(outcomes == 0)),
         "1": int(np.sum(outcomes == 1))
     }
+

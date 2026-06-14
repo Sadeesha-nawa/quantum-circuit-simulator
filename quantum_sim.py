@@ -54,6 +54,46 @@ def apply_gate(gate, state):
     """
     return gate @ state
 
+def tensor_product(*items):
+    """
+    Compute the tensor product of multiple vectors or matrices.
+
+    Examples:
+    tensor_product(ZERO, ZERO) gives |00>
+    tensor_product(H, H) gives H ⊗ H
+    """
+    result = items[0]
+
+    for item in items[1:]:
+        result = np.kron(result, item)
+
+    return result
+
+def num_qubits(state):
+    """
+    Infer the number of qubits from the length of the state vector.
+
+    A 1-qubit state has length 2.
+    A 2-qubit state has length 4.
+    A 3-qubit state has length 8.
+    """
+    n = int(np.log2(len(state)))
+
+    if 2 ** n != len(state):
+        raise ValueError("State vector length must be a power of 2.")
+
+    return n
+
+
+def basis_labels(n):
+    """
+    Generate computational basis labels for n qubits.
+
+    For n = 1: ['0', '1']
+    For n = 2: ['00', '01', '10', '11']
+    For n = 3: ['000', '001', ..., '111']
+    """
+    return [format(i, f"0{n}b") for i in range(2 ** n)]
 
 def probabilities(state):
     """
@@ -72,30 +112,34 @@ def is_unitary(gate):
 
 def pretty_state(state):
     """
-    Return a readable string version of a one-qubit quantum state.
+    Return a readable string version of a quantum state.
+    Works for one-qubit and multi-qubit states.
     """
-    labels = ["|0>", "|1>"]
+    n = num_qubits(state)
+    labels = basis_labels(n)
     terms = []
 
     for amplitude, label in zip(state, labels):
         if abs(amplitude) > 1e-10:
-            terms.append(f"({amplitude:.3f}){label}")
+            terms.append(f"({amplitude:.3f})|{label}>")
 
     return " + ".join(terms) if terms else "0"
 
 
 def measure(state, shots=1000):
     """
-    Simulate measuring a one-qubit quantum state multiple times.
+    Simulate measuring a quantum state multiple times.
 
-    Returns a dictionary with counts for outcomes '0' and '1'.
+    Returns a dictionary with counts for each possible outcome.
     """
     probs = probabilities(state)
+    n = num_qubits(state)
+    labels = basis_labels(n)
 
-    outcomes = np.random.choice([0, 1], size=shots, p=probs)
+    outcomes = np.random.choice(labels, size=shots, p=probs)
 
     return {
-        "0": int(np.sum(outcomes == 0)),
-        "1": int(np.sum(outcomes == 1))
+        label: int(np.sum(outcomes == label))
+        for label in labels
     }
 

@@ -1,4 +1,4 @@
-from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, apply_gate, probabilities, pretty_state, measure, is_unitary
+from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, apply_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
 
 print("Testing the one-qubit simulator")
 print()
@@ -88,4 +88,31 @@ gates = {
 for name, gate in gates.items():
     print(f"{name} is unitary:", is_unitary(gate))
 
+print()
+
+# Test 8: Create two-qubit basis states using tensor products
+zero_zero = tensor_product(ZERO, ZERO)
+zero_one = tensor_product(ZERO, ONE)
+one_zero = tensor_product(ONE, ZERO)
+one_one = tensor_product(ONE, ONE)
+
+print("Two-qubit basis states:")
+print("|00> =", zero_zero)
+print("|01> =", zero_one)
+print("|10> =", one_zero)
+print("|11> =", one_one)
+print()
+
+
+# Test 9: Apply H to both qubits in |00>
+state = zero_zero
+
+H_both = tensor_product(H, H)
+state = apply_gate(H_both, state)
+
+print("After applying H ⊗ H to |00>:")
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
+print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
 print()

@@ -1,4 +1,4 @@
-from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, apply_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
+from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, CNOT, apply_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
 
 print("Testing the one-qubit simulator")
 print()
@@ -111,6 +111,36 @@ H_both = tensor_product(H, H)
 state = apply_gate(H_both, state)
 
 print("After applying H ⊗ H to |00>:")
+print("Raw vector:", state)
+print("Pretty state:", pretty_state(state))
+print("Probabilities:", probabilities(state))
+print("Measurement:", measure(state, shots=1000))
+print()
+
+
+# Test 10: CNOT on two-qubit basis states
+print("Testing CNOT gate:")
+
+basis_states = {
+    "|00>": tensor_product(ZERO, ZERO),
+    "|01>": tensor_product(ZERO, ONE),
+    "|10>": tensor_product(ONE, ZERO),
+    "|11>": tensor_product(ONE, ONE),
+}
+
+for label, state in basis_states.items():
+    new_state = apply_gate(CNOT, state)
+    print(f"CNOT{label} =", pretty_state(new_state))
+print()
+
+
+# Test 11: Create a Bell state
+state = tensor_product(ZERO, ZERO)
+
+state = apply_gate(tensor_product(H, I), state)
+state = apply_gate(CNOT, state)
+
+print("Bell state from applying H ⊗ I, then CNOT to |00>:")
 print("Raw vector:", state)
 print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))

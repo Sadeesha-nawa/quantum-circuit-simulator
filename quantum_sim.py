@@ -46,6 +46,13 @@ T = np.array([
     [0, np.exp(1j * np.pi / 4)]
 ], dtype=complex)
 
+CNOT = np.array([
+    [1, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 0, 1],
+    [0, 0, 1, 0]
+], dtype=complex)
+
 # Core simulator functions
 
 def apply_gate(gate, state):
@@ -133,6 +140,7 @@ def measure(state, shots=1000):
     Returns a dictionary with counts for each possible outcome.
     """
     probs = probabilities(state)
+    probs = probs / np.sum(probs)
     n = num_qubits(state)
     labels = basis_labels(n)
 

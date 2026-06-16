@@ -1,4 +1,4 @@
-from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, CNOT, apply_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
+from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, CNOT, apply_gate, apply_single_qubit_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
 
 print("Testing the one-qubit simulator")
 print()
@@ -145,4 +145,21 @@ print("Raw vector:", state)
 print("Pretty state:", pretty_state(state))
 print("Probabilities:", probabilities(state))
 print("Measurement:", measure(state, shots=1000))
+print()
+
+# Test 12: Apply a one-qubit gate to a chosen qubit
+state = tensor_product(ZERO, ZERO)
+
+state_first = apply_single_qubit_gate(state, H, target=0)
+state_second = apply_single_qubit_gate(state, H, target=1)
+
+print("Applying H to selected qubits in |00>:")
+print("H on first qubit:", pretty_state(state_first))
+print("Probabilities:", probabilities(state_first))
+print("Measurement:", measure(state_first, shots=1000))
+print()
+
+print("H on second qubit:", pretty_state(state_second))
+print("Probabilities:", probabilities(state_second))
+print("Measurement:", measure(state_second, shots=1000))
 print()

@@ -61,6 +61,30 @@ def apply_gate(gate, state):
     """
     return gate @ state
 
+def apply_single_qubit_gate(state, gate, target):
+    """
+    Apply a one-qubit gate to a specific qubit in a multi-qubit state.
+
+    target = 0 means the first/leftmost qubit.
+    target = 1 means the second qubit.
+    """
+    n = num_qubits(state)
+
+    if target < 0 or target >= n:
+        raise ValueError("Target qubit index is out of range.")
+
+    operators = []
+
+    for qubit in range(n):
+        if qubit == target:
+            operators.append(gate)
+        else:
+            operators.append(I)
+
+    full_gate = tensor_product(*operators)
+
+    return apply_gate(full_gate, state)
+
 def tensor_product(*items):
     """
     Compute the tensor product of multiple vectors or matrices.

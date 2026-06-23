@@ -1,4 +1,5 @@
 from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, CNOT, apply_gate, apply_single_qubit_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
+from circuit import QuantumCircuit
 
 print("Testing the one-qubit simulator")
 print()
@@ -162,4 +163,16 @@ print()
 print("H on second qubit:", pretty_state(state_second))
 print("Probabilities:", probabilities(state_second))
 print("Measurement:", measure(state_second, shots=1000))
+print()
+
+# Test 13: Use the QuantumCircuit class
+qc = QuantumCircuit(2)
+
+qc.h(0)
+qc.cnot(0, 1)
+
+print("Bell state using QuantumCircuit class:")
+print("Pretty state:", qc.pretty())
+print("Probabilities:", qc.probabilities())
+print("Measurement:", qc.measure(shots=1000))
 print()

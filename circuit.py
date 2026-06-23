@@ -13,6 +13,7 @@ from quantum_sim import (
     probabilities,
     pretty_state,
     measure,
+    cnot_gate,
 )
 
 
@@ -63,22 +64,16 @@ class QuantumCircuit:
     def t(self, target):
         return self.apply(T, target)
 
-    def cnot(self, control=0, target=1):
+    def cnot(self, control, target):
         """
-        Apply CNOT to a 2-qubit circuit.
+        Apply CNOT with the chosen control and target qubits.
 
-        Current version supports:
-        control = 0, target = 1
+        If the control qubit is 1, the target qubit is flipped.
         """
-        if self.num_qubits != 2:
-            raise NotImplementedError("CNOT currently only supports 2-qubit circuits.")
-
-        if control != 0 or target != 1:
-            raise NotImplementedError("Current CNOT supports control=0 and target=1 only.")
-
-        self.state = apply_gate(CNOT, self.state)
+        gate = cnot_gate(self.num_qubits, control, target)
+        self.state = apply_gate(gate, self.state)
         return self
-
+    
     def probabilities(self):
         """
         Return measurement probabilities for the current state.

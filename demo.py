@@ -1,4 +1,4 @@
-from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, CNOT, apply_gate, apply_single_qubit_gate, probabilities, pretty_state, measure, is_unitary, tensor_product
+from quantum_sim import ZERO, ONE, I, X, Y, Z, H, S, T, CNOT, apply_gate, apply_single_qubit_gate, probabilities, pretty_state, measure, is_unitary, tensor_product, cnot_gate
 from circuit import QuantumCircuit
 
 print("Testing the one-qubit simulator")
@@ -172,6 +172,34 @@ qc.h(0)
 qc.cnot(0, 1)
 
 print("Bell state using QuantumCircuit class:")
+print("Pretty state:", qc.pretty())
+print("Probabilities:", qc.probabilities())
+print("Measurement:", qc.measure(shots=1000))
+print()
+
+# Test 14: Flexible CNOT directions
+print("Testing flexible CNOT directions:")
+
+state = tensor_product(ONE, ZERO)
+gate = cnot_gate(2, control=0, target=1)
+new_state = apply_gate(gate, state)
+print("CNOT control=0 target=1 on |10>:", pretty_state(new_state))
+
+state = tensor_product(ZERO, ONE)
+gate = cnot_gate(2, control=1, target=0)
+new_state = apply_gate(gate, state)
+print("CNOT control=1 target=0 on |01>:", pretty_state(new_state))
+
+print()
+
+
+# Test 15: Reverse CNOT using QuantumCircuit
+qc = QuantumCircuit(2)
+qc.x(1)
+qc.cnot(1, 0)
+
+print("Reverse CNOT using QuantumCircuit:")
+print("Start with |01>, then CNOT control=1 target=0")
 print("Pretty state:", qc.pretty())
 print("Probabilities:", qc.probabilities())
 print("Measurement:", qc.measure(shots=1000))

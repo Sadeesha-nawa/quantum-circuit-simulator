@@ -100,6 +100,44 @@ def tensor_product(*items):
 
     return result
 
+def cnot_gate(num_qubits, control, target):
+    """
+    Create a CNOT gate for any number of qubits.
+
+    control: index of the control qubit
+    target: index of the target qubit
+
+    Qubit indexing:
+    0 means the first/leftmost qubit.
+    1 means the second qubit.
+    """
+    if num_qubits < 2:
+        raise ValueError("CNOT requires at least 2 qubits.")
+
+    if control < 0 or control >= num_qubits:
+        raise ValueError("Control qubit index is out of range.")
+
+    if target < 0 or target >= num_qubits:
+        raise ValueError("Target qubit index is out of range.")
+
+    if control == target:
+        raise ValueError("Control and target qubits must be different.")
+
+    size = 2 ** num_qubits
+    gate = np.zeros((size, size), dtype=complex)
+
+    for input_index in range(size):
+        bits = list(format(input_index, f"0{num_qubits}b"))
+
+        if bits[control] == "1":
+            bits[target] = "0" if bits[target] == "1" else "1"
+
+        output_index = int("".join(bits), 2)
+
+        gate[output_index, input_index] = 1
+
+    return gate
+
 def num_qubits(state):
     """
     Infer the number of qubits from the length of the state vector.

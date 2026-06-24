@@ -27,6 +27,7 @@ The project currently supports single-qubit gates, tensor products, multi-qubit 
 - Generate Bell states
 - Use a simple `QuantumCircuit` class interface
 - Run automatic tests with `pytest`
+- Track circuit history and print a readable circuit summary
 
 ---
 
@@ -128,7 +129,7 @@ pytest
 Expected result:
 
 ```text
-10 passed
+13 passed
 ```
 
 The tests verify behavior such as:
@@ -238,7 +239,6 @@ Through this project, I practiced:
 Possible future additions:
 
 - Add more controlled gates
-- Add circuit history/logging
 - Add simple circuit diagrams
 - Add Grover’s algorithm or Deutsch-Jozsa algorithm demo
 - Compare simulator output with Qiskit

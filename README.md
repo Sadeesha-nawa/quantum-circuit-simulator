@@ -93,7 +93,10 @@ Example output:
 ```text
 Quantum Circuit Simulator Demo
 
-Circuit: H on qubit 0, then CNOT control=0 target=1
+Circuit:
+1. H on qubit 0
+2. CNOT control=0 target=1
+
 State: (0.707+0.000j)|00> + (0.707+0.000j)|11>
 Probabilities: [0.5 0.  0.  0.5]
 Measurement: {'00': 503, '01': 0, '10': 0, '11': 497}

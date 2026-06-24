@@ -6,7 +6,6 @@ from quantum_sim import (
     H,
     S,
     T,
-    CNOT,
     tensor_product,
     apply_gate,
     apply_single_qubit_gate,
@@ -22,6 +21,7 @@ class QuantumCircuit:
     A simple quantum circuit simulator.
 
     Stores a quantum state and allows gates to be applied step by step.
+    Also keeps a history of gates that have been applied.
     """
 
     def __init__(self, num_qubits):
@@ -38,42 +38,48 @@ class QuantumCircuit:
 
         self.num_qubits = num_qubits
         self.state = tensor_product(*([ZERO] * num_qubits))
+        self.history = []
 
-    def apply(self, gate, target):
+    def apply(self, gate, target, gate_name="CUSTOM"):
         """
         Apply a one-qubit gate to a chosen target qubit.
+
+        The gate is also recorded in the circuit history.
         """
         self.state = apply_single_qubit_gate(self.state, gate, target)
+        self.history.append(f"{gate_name} on qubit {target}")
         return self
 
     def x(self, target):
-        return self.apply(X, target)
+        return self.apply(X, target, "X")
 
     def y(self, target):
-        return self.apply(Y, target)
+        return self.apply(Y, target, "Y")
 
     def z(self, target):
-        return self.apply(Z, target)
+        return self.apply(Z, target, "Z")
 
     def h(self, target):
-        return self.apply(H, target)
+        return self.apply(H, target, "H")
 
     def s(self, target):
-        return self.apply(S, target)
+        return self.apply(S, target, "S")
 
     def t(self, target):
-        return self.apply(T, target)
+        return self.apply(T, target, "T")
 
     def cnot(self, control, target):
         """
         Apply CNOT with the chosen control and target qubits.
 
         If the control qubit is 1, the target qubit is flipped.
+        The operation is also recorded in the circuit history.
         """
         gate = cnot_gate(self.num_qubits, control, target)
         self.state = apply_gate(gate, self.state)
+        self.history.append(f"CNOT control={control} target={target}")
         return self
-    
+
     def probabilities(self):
         """
         Return measurement probabilities for the current state.
@@ -92,9 +98,25 @@ class QuantumCircuit:
         """
         return pretty_state(self.state)
 
+    def summary(self):
+        """
+        Return a readable numbered list of gates applied to the circuit.
+        """
+        if not self.history:
+            return "No gates applied."
+
+        lines = []
+        for index, operation in enumerate(self.history, start=1):
+            lines.append(f"{index}. {operation}")
+
+        return "\n".join(lines)
+
     def reset(self):
         """
         Reset the circuit back to the all-zero state.
+
+        The circuit history is also cleared.
         """
         self.state = tensor_product(*([ZERO] * self.num_qubits))
+        self.history.clear()
         return self

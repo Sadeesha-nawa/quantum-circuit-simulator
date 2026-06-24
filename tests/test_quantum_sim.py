@@ -108,3 +108,36 @@ def test_quantum_circuit_bell_state():
     expected_probs = np.array([0.5, 0.0, 0.0, 0.5])
 
     assert np.allclose(qc.probabilities(), expected_probs)
+
+def test_quantum_circuit_history_records_gates():
+    qc = QuantumCircuit(2)
+
+    qc.h(0)
+    qc.cnot(0, 1)
+
+    assert qc.history == [
+        "H on qubit 0",
+        "CNOT control=0 target=1",
+    ]
+
+
+def test_quantum_circuit_summary():
+    qc = QuantumCircuit(2)
+
+    qc.h(0)
+    qc.cnot(0, 1)
+
+    expected = "1. H on qubit 0\n2. CNOT control=0 target=1"
+
+    assert qc.summary() == expected
+
+
+def test_quantum_circuit_reset_clears_history():
+    qc = QuantumCircuit(2)
+
+    qc.h(0)
+    qc.cnot(0, 1)
+    qc.reset()
+
+    assert qc.history == []
+    assert qc.summary() == "No gates applied."

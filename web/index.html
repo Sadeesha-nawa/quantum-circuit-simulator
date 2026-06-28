@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Circuit Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.29.3/full/pyodide.js"></script>
+</head>
+<body>
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Python / NumPy / Pyodide</p>
+            <h1>Quantum Circuit Simulator</h1>
+            <p>
+                Run a small quantum circuit simulator directly in the browser.
+                This demo loads the Python simulator with Pyodide and creates a Bell state.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Bell State Demo</h2>
+            <p>
+                This runs a 2-qubit circuit: Hadamard on qubit 0, then CNOT with
+                control 0 and target 1.
+            </p>
+
+            <label for="shots">Measurement shots</label>
+            <input id="shots" type="number" min="1" value="1000">
+
+            <button id="runButton" disabled>Loading Python...</button>
+
+            <div id="status" class="status">Initializing Pyodide...</div>
+        </section>
+
+        <section class="card output-card">
+            <h2>Output</h2>
+
+            <h3>Circuit</h3>
+            <pre id="circuitOutput">Waiting for simulator...</pre>
+
+            <h3>Final State</h3>
+            <pre id="stateOutput">Waiting for simulator...</pre>
+
+            <h3>Probabilities</h3>
+            <pre id="probabilityOutput">Waiting for simulator...</pre>
+
+            <h3>Measurement</h3>
+            <pre id="measurementOutput">Waiting for simulator...</pre>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

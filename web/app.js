@@ -1,5 +1,6 @@
 const runButton = document.getElementById("runButton");
 const addGateButton = document.getElementById("addGateButton");
+const bellExampleButton = document.getElementById("bellExampleButton");
 const resetButton = document.getElementById("resetButton");
 
 const statusBox = document.getElementById("status");
@@ -58,6 +59,7 @@ async function initializePyodide() {
         runButton.textContent = "Run Circuit";
 
         addGateButton.disabled = false;
+        bellExampleButton.disabled = false;
         runButton.disabled = false;
         resetButton.disabled = false;
 
@@ -242,6 +244,27 @@ function resetCircuit() {
     statusBox.textContent = "Circuit reset.";
 }
 
+function loadBellStateExample() {
+    numQubitsSelect.value = "2";
+
+    updateQubitOptions();
+    updateGateControls();
+
+    operations = [
+        { gate: "H", target: 0 },
+        { gate: "CNOT", control: 0, target: 1 }
+    ];
+
+    updateOperationList();
+
+    circuitOutput.textContent = "Waiting for simulator...";
+    stateOutput.textContent = "Waiting for simulator...";
+    probabilityOutput.textContent = "Waiting for simulator...";
+    measurementOutput.textContent = "Waiting for simulator...";
+
+    statusBox.textContent = "Bell state example loaded. Click Run Circuit.";
+}
+
 
 numQubitsSelect.addEventListener("change", () => {
     operations = [];
@@ -254,6 +277,7 @@ numQubitsSelect.addEventListener("change", () => {
 gateSelect.addEventListener("change", updateGateControls);
 
 addGateButton.addEventListener("click", addGate);
+bellExampleButton.addEventListener("click", loadBellStateExample);
 runButton.addEventListener("click", runCircuit);
 resetButton.addEventListener("click", resetCircuit);
 

@@ -35,7 +35,7 @@ async function initializePyodide() {
 
         statusBox.textContent = "Importing simulator...";
         await pyodide.runPythonAsync(`
-            from web_runner import run_bell_demo
+            from web_runner import run_bell_demo, run_circuit
         `);
 
         statusBox.textContent = "Ready.";
@@ -57,8 +57,16 @@ function displayResult(result) {
 runButton.addEventListener("click", () => {
     const shots = Number.parseInt(shotsInput.value, 10) || 1000;
 
+    const operations = [
+        { gate: "H", target: 0 },
+        { gate: "CNOT", control: 0, target: 1 }
+    ];
+
+    pyodide.globals.set("num_qubits", 2);
+    pyodide.globals.set("operations_json", JSON.stringify(operations));
     pyodide.globals.set("shots", shots);
-    const resultJson = pyodide.runPython("run_bell_demo(shots)");
+
+    const resultJson = pyodide.runPython("run_circuit(num_qubits, operations_json, shots)");
     const result = JSON.parse(resultJson);
 
     displayResult(result);

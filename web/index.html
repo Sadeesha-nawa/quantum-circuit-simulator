@@ -48,11 +48,13 @@
                 <option value="1">Qubit 1</option>
             </select>
 
-            <label for="controlQubit">Control qubit</label>
-            <select id="controlQubit">
-                <option value="0">Qubit 0</option>
-                <option value="1">Qubit 1</option>
-            </select>
+            <div id="controlQubitGroup">
+                <label for="controlQubit">Control qubit</label>
+                <select id="controlQubit">
+                    <option value="0">Qubit 0</option>
+                    <option value="1">Qubit 1</option>
+                </select>
+            </div>
 
             <label for="shots">Measurement shots</label>
             <input id="shots" type="number" min="1" value="1000">

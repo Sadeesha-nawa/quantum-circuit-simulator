@@ -9,6 +9,7 @@ const numQubitsSelect = document.getElementById("numQubits");
 const gateSelect = document.getElementById("gateSelect");
 const targetQubitSelect = document.getElementById("targetQubit");
 const controlQubitSelect = document.getElementById("controlQubit");
+const controlQubitGroup = document.getElementById("controlQubitGroup");
 
 const operationList = document.getElementById("operationList");
 
@@ -61,6 +62,7 @@ async function initializePyodide() {
         resetButton.disabled = false;
 
         updateQubitOptions();
+        updateGateControls();
         updateOperationList();
     } catch (error) {
         console.error(error);
@@ -93,6 +95,26 @@ function updateQubitOptions() {
     }
 }
 
+function updateGateControls() {
+    const numQubits = Number.parseInt(numQubitsSelect.value, 10);
+    const cnotOption = Array.from(gateSelect.options).find((option) => {
+        return option.value === "CNOT";
+    });
+
+    if (cnotOption) {
+        cnotOption.disabled = numQubits < 2;
+    }
+
+    if (numQubits < 2 && gateSelect.value === "CNOT") {
+        gateSelect.value = "H";
+    }
+
+    if (gateSelect.value === "CNOT") {
+        controlQubitGroup.style.display = "block";
+    } else {
+        controlQubitGroup.style.display = "none";
+    }
+}
 
 function addGate() {
     const gate = gateSelect.value;
@@ -224,9 +246,12 @@ function resetCircuit() {
 numQubitsSelect.addEventListener("change", () => {
     operations = [];
     updateQubitOptions();
+    updateGateControls();
     updateOperationList();
     statusBox.textContent = "Number of qubits changed. Circuit reset.";
 });
+
+gateSelect.addEventListener("change", updateGateControls);
 
 addGateButton.addEventListener("click", addGate);
 runButton.addEventListener("click", runCircuit);

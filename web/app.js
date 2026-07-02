@@ -216,19 +216,41 @@ function displayResult(result) {
 }
 
 
-function runCircuit() {
+async function runCircuit() {
+    if (!pyodide) {
+        statusBox.textContent = "Simulator is still loading.";
+        return;
+    }
+
     const numQubits = Number.parseInt(numQubitsSelect.value, 10);
-    const shots = Number.parseInt(shotsInput.value, 10) || 1000;
+    const shots = Number.parseInt(shotsInput.value, 10);
 
-    pyodide.globals.set("num_qubits", numQubits);
-    pyodide.globals.set("operations_json", JSON.stringify(operations));
-    pyodide.globals.set("shots", shots);
+    if (!Number.isInteger(shots) || shots < 1) {
+        statusBox.textContent = "Measurement shots must be a positive whole number.";
+        return;
+    }
 
-    const resultJson = pyodide.runPython("run_circuit(num_qubits, operations_json, shots)");
-    const result = JSON.parse(resultJson);
+    try {
+        statusBox.textContent = "Running circuit...";
+        runButton.disabled = true;
 
-    displayResult(result);
-    statusBox.textContent = "Circuit ran successfully.";
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        pyodide.globals.set("num_qubits", numQubits);
+        pyodide.globals.set("operations_json", JSON.stringify(operations));
+        pyodide.globals.set("shots", shots);
+
+        const resultJson = pyodide.runPython("run_circuit(num_qubits, operations_json, shots)");
+        const result = JSON.parse(resultJson);
+
+        displayResult(result);
+        statusBox.textContent = "Circuit ran successfully.";
+    } catch (error) {
+        console.error(error);
+        statusBox.textContent = "Error running circuit. Check the circuit settings or browser console.";
+    } finally {
+        runButton.disabled = false;
+    }
 }
 
 

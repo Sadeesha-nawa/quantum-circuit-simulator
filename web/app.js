@@ -140,11 +140,55 @@ function updateOperationList() {
 }
 
 
+function basisLabels(numQubits) {
+    const labels = [];
+    const numStates = 2 ** numQubits;
+
+    for (let i = 0; i < numStates; i++) {
+        labels.push(i.toString(2).padStart(numQubits, "0"));
+    }
+
+    return labels;
+}
+
+
+function formatNumber(value) {
+    return Number(value)
+        .toFixed(6)
+        .replace(/\.?0+$/, "");
+}
+
+
+function formatProbabilities(probabilities) {
+    const numQubits = Math.round(Math.log2(probabilities.length));
+    const labels = basisLabels(numQubits);
+
+    return probabilities
+        .map((probability, index) => {
+            return `|${labels[index]}>: ${formatNumber(probability)}`;
+        })
+        .join("\n");
+}
+
+
+function formatMeasurement(measurement, probabilities) {
+    const numQubits = Math.round(Math.log2(probabilities.length));
+    const labels = basisLabels(numQubits);
+
+    return labels
+        .map((label) => {
+            const count = measurement[label] ?? 0;
+            return `|${label}>: ${count}`;
+        })
+        .join("\n");
+}
+
+
 function displayResult(result) {
     circuitOutput.textContent = result.summary;
     stateOutput.textContent = result.state;
-    probabilityOutput.textContent = JSON.stringify(result.probabilities, null, 2);
-    measurementOutput.textContent = JSON.stringify(result.measurement, null, 2);
+    probabilityOutput.textContent = formatProbabilities(result.probabilities);
+    measurementOutput.textContent = formatMeasurement(result.measurement, result.probabilities);
 }
 
 

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantum Circuit Simulator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.29.3/full/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"></script>
 </head>
 <body>
     <main class="container">
         <section class="hero">
             <p class="eyebrow">Python / NumPy / Pyodide</p>
-            <h1>Quantum Circuit Simulator</h1>
+            <h1>Quantum Circuit Simulator</h1>  
             <p>
                 Run a small quantum circuit simulator directly in the browser.
                 This demo loads the Python simulator with Pyodide and creates a Bell state.
@@ -19,18 +19,52 @@
         </section>
 
         <section class="card">
-            <h2>Bell State Demo</h2>
+            <h2>Build a Circuit</h2>
             <p>
-                This runs a 2-qubit circuit: Hadamard on qubit 0, then CNOT with
-                control 0 and target 1.
+                Choose gates, add them to the circuit, then run the simulator in the browser.
             </p>
+
+            <label for="numQubits">Number of qubits</label>
+            <select id="numQubits">
+                <option value="1">1 qubit</option>
+                <option value="2" selected>2 qubits</option>
+                <option value="3">3 qubits</option>
+            </select>
+
+            <label for="gateSelect">Gate</label>
+            <select id="gateSelect">
+                <option value="H">H</option>
+                <option value="X">X</option>
+                <option value="Y">Y</option>
+                <option value="Z">Z</option>
+                <option value="S">S</option>
+                <option value="T">T</option>
+                <option value="CNOT">CNOT</option>
+            </select>
+
+            <label for="targetQubit">Target qubit</label>
+            <select id="targetQubit">
+                <option value="0">Qubit 0</option>
+                <option value="1">Qubit 1</option>
+            </select>
+
+            <label for="controlQubit">Control qubit</label>
+            <select id="controlQubit">
+                <option value="0">Qubit 0</option>
+                <option value="1">Qubit 1</option>
+            </select>
 
             <label for="shots">Measurement shots</label>
             <input id="shots" type="number" min="1" value="1000">
 
+            <button id="addGateButton" disabled>Add Gate</button>
             <button id="runButton" disabled>Loading Python...</button>
+            <button id="resetButton" disabled>Reset Circuit</button>
 
             <div id="status" class="status">Initializing Pyodide...</div>
+
+            <h3>Current Circuit</h3>
+            <pre id="operationList">No gates added yet.</pre>
         </section>
 
         <section class="card output-card">

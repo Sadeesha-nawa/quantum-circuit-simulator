@@ -24,50 +24,65 @@
                 Choose gates, add them to the circuit, then run the simulator in the browser.
             </p>
 
-            <label for="numQubits">Number of qubits</label>
-            <select id="numQubits">
-                <option value="1">1 qubit</option>
-                <option value="2" selected>2 qubits</option>
-                <option value="3">3 qubits</option>
-            </select>
+            <div class="builder-grid">
+                <section class="builder-panel">
+                    <h3>Create/Add Gate</h3>
 
-            <label for="gateSelect">Gate</label>
-            <select id="gateSelect">
-                <option value="H">H</option>
-                <option value="X">X</option>
-                <option value="Y">Y</option>
-                <option value="Z">Z</option>
-                <option value="S">S</option>
-                <option value="T">T</option>
-                <option value="CNOT">CNOT</option>
-            </select>
+                    <label for="gateSelect">Gate</label>
+                    <select id="gateSelect">
+                        <option value="H">H</option>
+                        <option value="X">X</option>
+                        <option value="Y">Y</option>
+                        <option value="Z">Z</option>
+                        <option value="S">S</option>
+                        <option value="T">T</option>
+                        <option value="CNOT">CNOT</option>
+                    </select>
 
-            <label for="targetQubit">Target qubit</label>
-            <select id="targetQubit">
-                <option value="0">Qubit 0</option>
-                <option value="1">Qubit 1</option>
-            </select>
+                    <label for="targetQubit">Target qubit</label>
+                    <select id="targetQubit">
+                        <option value="0">Qubit 0</option>
+                        <option value="1">Qubit 1</option>
+                    </select>
 
-            <div id="controlQubitGroup">
-                <label for="controlQubit">Control qubit</label>
-                <select id="controlQubit">
-                    <option value="0">Qubit 0</option>
-                    <option value="1">Qubit 1</option>
-                </select>
+                    <div id="controlQubitGroup">
+                        <label for="controlQubit">Control qubit</label>
+                        <select id="controlQubit">
+                            <option value="0">Qubit 0</option>
+                            <option value="1">Qubit 1</option>
+                        </select>
+                    </div>
+
+                    <button id="addGateButton" disabled>Add Gate</button>
+                </section>
+
+                <section class="builder-panel">
+                    <h3>Circuit Settings</h3>
+
+                    <label for="numQubits">Number of qubits</label>
+                    <select id="numQubits">
+                        <option value="1">1 qubit</option>
+                        <option value="2" selected>2 qubits</option>
+                        <option value="3">3 qubits</option>
+                    </select>
+
+                    <label for="shots">Measurement shots</label>
+                    <input id="shots" type="number" min="1" value="1000">
+                </section>
             </div>
 
-            <label for="shots">Measurement shots</label>
-            <input id="shots" type="number" min="1" value="1000">
+            <section class="builder-panel current-circuit-panel">
+                <h3>Current Circuit</h3>
+                <pre id="operationList">No gates added yet.</pre>
 
-            <button id="addGateButton" disabled>Add Gate</button>
-            <button id="bellExampleButton" disabled>Load Bell State Example</button>
-            <button id="runButton" disabled>Loading Python...</button>
-            <button id="resetButton" disabled>Reset Circuit</button>
+                <div class="action-row">
+                    <button id="runButton" class="primary-action" disabled>Loading Python...</button>
+                    <button id="resetButton" class="secondary-action" disabled>Reset Circuit</button>
+                    <button id="bellExampleButton" class="example-action" disabled>Load Bell State Demo</button>
+                </div>
+            </section>
 
             <div id="status" class="status">Initializing Pyodide...</div>
-
-            <h3>Current Circuit</h3>
-            <pre id="operationList">No gates added yet.</pre>
         </section>
 
         <section class="card output-card">

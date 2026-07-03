@@ -19,16 +19,25 @@
         </section>
 
         <section class="card">
-            <h2>Build a Circuit</h2>
+            <h2>
+                Build a Circuit
+                <span class="info-tooltip" tabindex="0" data-tooltip="Use this section to build a small quantum circuit by adding gates one at a time.">?</span>
+            </h2>
             <p>
                 Choose gates, add them to the circuit, then run the simulator in the browser.
             </p>
 
             <div class="builder-grid">
                 <section class="builder-panel">
-                    <h3>Create/Add Gate</h3>
+                    <h3>
+                        Create/Add Gate
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Choose a gate and qubit target, then add that operation to the current circuit.">?</span>
+                    </h3>
 
-                    <label for="gateSelect">Gate</label>
+                    <label for="gateSelect">
+                        Gate
+                        <span class="info-tooltip" tabindex="0" data-tooltip="The quantum gate to apply. Single-qubit gates include H, X, Y, Z, S, and T.">?</span>
+                    </label>
                     <select id="gateSelect">
                         <option value="H">H</option>
                         <option value="X">X</option>
@@ -39,46 +48,78 @@
                         <option value="CNOT">CNOT</option>
                     </select>
 
-                    <label for="targetQubit">Target qubit</label>
+                    <label for="targetQubit">
+                        Target qubit
+                        <span class="info-tooltip" tabindex="0" data-tooltip="The qubit that the selected gate acts on. For CNOT, this is the qubit that may be flipped.">?</span>
+                    </label>
                     <select id="targetQubit">
                         <option value="0">Qubit 0</option>
                         <option value="1">Qubit 1</option>
                     </select>
 
                     <div id="controlQubitGroup">
-                        <label for="controlQubit">Control qubit</label>
+                        <label for="controlQubit">
+                            Control qubit
+                            <span class="info-tooltip" tabindex="0" data-tooltip="Used only for CNOT. If the control qubit is 1, the target qubit is flipped.">?</span>
+                        </label>
                         <select id="controlQubit">
                             <option value="0">Qubit 0</option>
                             <option value="1">Qubit 1</option>
                         </select>
                     </div>
 
-                    <button id="addGateButton" disabled>Add Gate</button>
+                    <div class="button-with-help add-gate-control">
+                        <button id="addGateButton" disabled>Add Gate</button>
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Adds the selected gate operation to the current circuit list.">?</span>
+                    </div>
                 </section>
 
                 <section class="builder-panel">
-                    <h3>Circuit Settings</h3>
+                    <h3>
+                        Circuit Settings
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Global settings for the circuit before it is simulated.">?</span>
+                    </h3>
 
-                    <label for="numQubits">Number of qubits</label>
+                    <label for="numQubits">
+                        Number of qubits
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Sets the size of the quantum circuit. More qubits create a larger state vector.">?</span>
+                    </label>
                     <select id="numQubits">
                         <option value="1">1 qubit</option>
                         <option value="2" selected>2 qubits</option>
                         <option value="3">3 qubits</option>
                     </select>
 
-                    <label for="shots">Measurement shots</label>
+                    <label for="shots">
+                        Measurement shots
+                        <span class="info-tooltip" tabindex="0" data-tooltip="The number of simulated measurements. Higher shots usually gives results closer to the true probabilities.">?</span>
+                    </label>
                     <input id="shots" type="number" min="1" value="1000">
                 </section>
             </div>
 
             <section class="builder-panel current-circuit-panel">
-                <h3>Current Circuit</h3>
+                <h3>
+                    Current Circuit
+                    <span class="info-tooltip" tabindex="0" data-tooltip="Shows the ordered list of gates that will be applied when the circuit runs.">?</span>
+                </h3>
                 <pre id="operationList">No gates added yet.</pre>
 
                 <div class="action-row">
-                    <button id="runButton" class="primary-action" disabled>Loading Python...</button>
-                    <button id="resetButton" class="secondary-action" disabled>Reset Circuit</button>
-                    <button id="bellExampleButton" class="example-action" disabled>Load Bell State Demo</button>
+                    <div class="button-with-help">
+                        <button id="runButton" class="primary-action" disabled>Loading Python...</button>
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Runs the current circuit and updates the output below.">?</span>
+                    </div>
+
+                    <div class="button-with-help">
+                        <button id="resetButton" class="secondary-action" disabled>Reset Circuit</button>
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Clears the current circuit and resets the output display.">?</span>
+                    </div>
+
+                    <div class="button-with-help example-action-group">
+                        <button id="bellExampleButton" class="example-action" disabled>Load Bell State Demo</button>
+                        <span class="info-tooltip" tabindex="0" data-tooltip="Loads a Bell state example: H on qubit 0 followed by CNOT control 0 target 1.">?</span>
+                    </div>
                 </div>
             </section>
 
@@ -86,18 +127,33 @@
         </section>
 
         <section class="card output-card">
-            <h2>Output</h2>
+            <h2>
+                Output
+                <span class="info-tooltip" tabindex="0" data-tooltip="Results from the simulated circuit appear here after running.">?</span>
+            </h2>
 
-            <h3>Circuit</h3>
+            <h3>
+                Circuit
+                <span class="info-tooltip" tabindex="0" data-tooltip="The circuit summary generated by the Python simulator.">?</span>
+            </h3>
             <pre id="circuitOutput">Waiting for simulator...</pre>
 
-            <h3>Final State</h3>
+            <h3>
+                Final State
+                <span class="info-tooltip" tabindex="0" data-tooltip="The final quantum state after all gates are applied.">?</span>
+            </h3>
             <pre id="stateOutput">Waiting for simulator...</pre>
 
-            <h3>Probabilities</h3>
+            <h3>
+                Probabilities
+                <span class="info-tooltip" tabindex="0" data-tooltip="The probability of measuring each basis state.">?</span>
+            </h3>
             <pre id="probabilityOutput">Waiting for simulator...</pre>
 
-            <h3>Measurement</h3>
+            <h3>
+                Measurement
+                <span class="info-tooltip" tabindex="0" data-tooltip="Simulated measurement counts based on the selected number of shots.">?</span>
+            </h3>
             <pre id="measurementOutput">Waiting for simulator...</pre>
         </section>
     </main>

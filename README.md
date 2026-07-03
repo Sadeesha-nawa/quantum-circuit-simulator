@@ -1,12 +1,18 @@
 # Quantum Circuit Simulator from Scratch
 
-An educational quantum circuit simulator built from scratch in Python using NumPy, with an interactive browser version powered by Pyodide.
+An educational quantum circuit simulator built from scratch in Python using NumPy, with an interactive browser version powered by Pyodide (https://sadeesha-nawa.github.io/quantum-circuit-simulator/).
 
 I started this project to understand the linear algebra behind quantum computing instead of only using high-level libraries like Qiskit. The simulator represents quantum states as vectors, quantum gates as matrices, and applies gates using matrix multiplication.
 
 The project currently supports single-qubit gates, tensor products, multi-qubit states, flexible CNOT gates, Bell-state generation, simulated measurement, a simple `QuantumCircuit` class interface, automated tests, and a browser-based circuit builder.
 
 ---
+
+## Live Demo
+
+Try the browser version here:
+
+https://sadeesha-nawa.github.io/quantum-circuit-simulator/
 
 ## Features
 
